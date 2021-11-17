@@ -20,7 +20,7 @@ from sklearn import metrics
 
 
 #Read Dataframe
-path = "/content/credit_risk_dataset.csv"
+path = "/Users/sofiaescoto/Desktop/CDS 303/cds302_model_app/credit_risk_dataset.csv"
 df = pd.read_csv(path)
 
 
