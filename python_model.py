@@ -43,7 +43,7 @@ plt.show()
 #Checking correlation between target column and feature columns
 cor_target = abs(cor['loan_status'])
 relevant_features = cor_target[cor_target>0.3]
-print("The following are the feature columns with a correlation of 0.3 or greater to the traget variable")
+print("The following are the feature columns with a correlation of 0.3 or greater to the target variable")
 print(relevant_features)
 print("\n")
 print("Correlation between the feature columns")
