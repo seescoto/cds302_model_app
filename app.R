@@ -7,7 +7,7 @@ ui <- fluidPage(
   # App title ----
   titlePanel(" Will you get approved for a loan?"),
   
-  #  inputs in sidebar ---- should be loan percent rate and loan_percent_income
+  #  sidebarlayout takes sidebar panel, main panel, position, fluid
     sidebarLayout(
       sidebarPanel(
                  sliderInput(inputId = 'percent_int', #what we enter into predict()
@@ -38,7 +38,7 @@ ui <- fluidPage(
         #plotOutput("mpgPlot")
         
       ),
-  position = c('left', 'right'),
+  position = 'right',
   fluid = TRUE
   
   
@@ -46,7 +46,7 @@ ui <- fluidPage(
 
 
 
-#predict function based on our lrm
+#predict function based on our lrm (glm family = binomial)
 server <- function(input, output, session) {
   
   dfinput <- reactive({
