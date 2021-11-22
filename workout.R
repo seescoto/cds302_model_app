@@ -79,6 +79,7 @@ summary(mod2)
 #comparing
 AIC(mod, mod2)
 #mod2 has a significantly lower aic even though df is higher, meaning it's better
+#but precision/accuracy, specificity are slightly lower so nah
 
 
 #calculating recall, precision, etc
@@ -86,16 +87,15 @@ xy_test <- X_test
 xy_test$loan_status <- y_test
 
 #adding predicted loan status
-xy_test <- add_predictions(data = xy_test, mod2, var = 'pred_loan_status', type = 'response') 
+xy_test <- add_predictions(data = xy_test, mod, var = 'pred_loan_status', type = 'response') 
 
 #making columns of true negatives, false negatives, etc.
-xy_test %>% 
-  mutate(status = case_when(loan_status == 0 && pred_loan_status < 0.5 ~ 'TN',
-                           loan_status == 0 && pred_loan_status >= 0.5 ~ 'FP',
-                           loan_status == 1 && pred_loan_status >= 0.5 ~ 'TP',
-                           TRUE ~ 'FN' #all other cases are false positive
-                           )) %>% 
-  head(n = 10)
+xy_test <- xy_test %>% 
+  mutate(status = case_when(loan_status == 0 & pred_loan_status < 0.5 ~ 'TN',
+                           loan_status == 0 & pred_loan_status >= 0.5 ~ 'FP',
+                           loan_status == 1 & pred_loan_status >= 0.5 ~ 'TP',
+                           TRUE ~ 'FP' #all other cases are false positive
+                           ))
 
 num_fp <- which(xy_test$status == 'FP') %>% 
   length()
@@ -109,11 +109,19 @@ num_tn <- which(xy_test$status == 'TN') %>%
 
 accuracy <- (num_tp + num_tn)/(length(xy_test$status))
 specificity <- num_tn/(num_tn + num_fp)
+precision <- num_tp/ (num_tp + num_fp)
+recall <- num_tp/(num_tp + num_fn)
+
+print(paste(accuracy, specificity, precision, recall))
 
 
 which(xy_test$status == 'FN')
 
 xy_test %>% 
-  filter(xy_test$status == 'TN') %>%  head()
+  filter(status == 'TN') %>%  count()
 num_tn
 
+xy_test %>% 
+  filter(pred_loan_status < 0.5, loan_status == 1)
+
+xy_test
