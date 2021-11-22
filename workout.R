@@ -2,6 +2,7 @@
 
 library(googlesheets4)
 library(reticulate)
+library(tidyverse)
 
 table <- "responses"
 
@@ -34,14 +35,14 @@ library(tidyverse)
 library(modelr)
 d <- read_csv('https://raw.githubusercontent.com/seescoto/cds302_model_app/main/credit_risk_dataset.csv')
 
-mod <- glm(loan_status ~ loan_percent_income + loan_int_rate, data = d, 
+mod <- glm(loan_status ~ loan_percent_income + interest_rate, data = X_train, 
            family = 'binomial')
 
 summary(mod)
 
 d %>% 
   ggplot() +
-  geom_point(aes(loan_percent_income, loan_int_rate, color = loan_status))
+  geom_jitter(aes(loan_percent_income, loan_int_rate, color = loan_status))
 
 mod2 <- glm(loan_status ~ loan_percent_income * loan_int_rate, data = d, 
             family = 'binomial')
@@ -49,8 +50,70 @@ mod2 <- glm(loan_status ~ loan_percent_income * loan_int_rate, data = d,
 summary(mod2)
 
 
-
-new <- data_frame(loan_percent_income = .59, 
+new <- tibble(loan_percent_income = .59, 
                  loan_int_rate = 11.02) 
 
-add_predictions(mod, type = 'response', data = new)
+add_predictions(mod2, type = 'response', data = new)
+
+mod2 %>% 
+  add1(scope = colnames(d)) %>% 
+  arrange(AIC)
+
+#merging training datasets together to get loan status in there
+xy_train <- merge(X_train, y_train )
+xy_train <- X_train
+xy_train$loan_status <- y_train
+
+
+#trying first log reg model
+
+mod <- glm(loan_status ~ loan_percent_income + interest_rate, data = xy_train, 
+           family = 'binomial')
+summary(mod)
+
+#scond log reg model
+mod2 <- glm(loan_status ~ loan_percent_income * interest_rate, data = xy_train, 
+            family = 'binomial')
+summary(mod2)
+
+#comparing
+AIC(mod, mod2)
+#mod2 has a significantly lower aic even though df is higher, meaning it's better
+
+
+#calculating recall, precision, etc
+xy_test <- X_test
+xy_test$loan_status <- y_test
+
+#adding predicted loan status
+xy_test <- add_predictions(data = xy_test, mod2, var = 'pred_loan_status', type = 'response') 
+
+#making columns of true negatives, false negatives, etc.
+xy_test %>% 
+  mutate(status = case_when(loan_status == 0 && pred_loan_status < 0.5 ~ 'TN',
+                           loan_status == 0 && pred_loan_status >= 0.5 ~ 'FP',
+                           loan_status == 1 && pred_loan_status >= 0.5 ~ 'TP',
+                           TRUE ~ 'FN' #all other cases are false positive
+                           )) %>% 
+  head(n = 10)
+
+num_fp <- which(xy_test$status == 'FP') %>% 
+  length()
+
+num_tp <- which(xy_test$status == 'TP') %>% 
+  length()
+num_fn <- which(xy_test$status == 'FN') %>% 
+  length()
+num_tn <- which(xy_test$status == 'TN') %>% 
+  length()
+
+accuracy <- (num_tp + num_tn)/(length(xy_test$status))
+specificity <- num_tn/(num_tn + num_fp)
+
+
+which(xy_test$status == 'FN')
+
+xy_test %>% 
+  filter(xy_test$status == 'TN') %>%  head()
+num_tn
+
