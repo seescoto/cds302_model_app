@@ -1,33 +1,4 @@
-#app.R
-
-library(googlesheets4)
-library(reticulate)
-library(tidyverse)
-library(modelr)
-
-table <- "responses"
-
-saveData <- function(data) {
-  library(tidyverse)
-  # The data must be a dataframe rather than a named vector
-  data <- data %>% as.list() %>% data.frame()
-  # Add the data as a new row
-  sheet_append(sheet_url, data)
-}
-
-loadData <- function(sheet_url) {
-  # Read the data
-  read_sheet(sheet_url)
-}
-
-
-
-d <- read_csv('https://raw.githubusercontent.com/seescoto/cds302_model_app/main/credit_risk_dataset.csv')
-
-d
-
-
-source_python('python_model.py')
+#idk man testing out models
 
 
 mod <- glm(loan_status ~ loan_percent_income + interest_rate, data = X_train, 
@@ -46,7 +17,7 @@ summary(mod2)
 
 
 new <- tibble(loan_percent_income = .59, 
-                 loan_int_rate = 11.02) 
+              loan_int_rate = 11.02) 
 
 add_predictions(mod2, type = 'response', data = new)
 
@@ -87,10 +58,10 @@ xy_test <- add_predictions(data = xy_test, mod, var = 'pred_loan_status', type =
 #making columns of true negatives, false negatives, etc.
 xy_test <- xy_test %>% 
   mutate(status = case_when(loan_status == 0 & pred_loan_status < 0.5 ~ 'TN',
-                           loan_status == 0 & pred_loan_status >= 0.5 ~ 'FP',
-                           loan_status == 1 & pred_loan_status >= 0.5 ~ 'TP',
-                           TRUE ~ 'FP' #all other cases are false positive
-                           ))
+                            loan_status == 0 & pred_loan_status >= 0.5 ~ 'FP',
+                            loan_status == 1 & pred_loan_status >= 0.5 ~ 'TP',
+                            TRUE ~ 'FP' #all other cases are false positive
+  ))
 
 num_fp <- which(xy_test$status == 'FP') %>% 
   length()

@@ -1,6 +1,10 @@
 library(shiny)
 
 
+#load data
+source_python('python_model.py')
+
+
 #user interface so they can interact with stuff
 ui <- fluidPage(
   
@@ -31,6 +35,8 @@ ui <- fluidPage(
   
   # Main panel for displaying outputs ----
       mainPanel(
+        
+        
         # Output: Formatted text for caption ----
         #h3(textOutput("caption")),
         
