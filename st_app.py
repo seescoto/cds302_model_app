@@ -1,5 +1,7 @@
 ###streamlit app - sofia escoto
 
+python -m pip install -r requirements.txt 
+
 import streamlit as st
 import pandas as pd
 from sklearn.model_selection import train_test_split
