@@ -109,7 +109,7 @@ pred = logreg.predict(input) #predict defaulting [1] - aka NOT paying. 0 is appr
 prob = logreg.predict_proba(input) #predict possibility of not defaulting and not defaulting
 if pred == 0:
     st.text(f'Our model predicts you will get approved for a loan!')
-    st.text(f'The probability that you will pay off your loan is {round(prob[0][0]*100, 2)}%')
+    st.text(f'The probability that you will be approved is {round(prob[0][0]*100, 2)}%')
 else:
     st.text(f'Our model predicts that you will not get approved for a loan.')
-    st.text(f'The probability that you will not pay off your loan is {round(prob[0][1]*100, 2)}%')
+    st.text(f'The probability that you will be approved is {round(prob[0][0]*100, 2)}%')
