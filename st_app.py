@@ -37,6 +37,7 @@ X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.20, random_stat
 #creating model and fitting it
 logreg = LogisticRegression()
 logreg.fit(X_train, y_train)
+y_pred = logreg.predict(X_test)
 
 #model and data fitted!
 
