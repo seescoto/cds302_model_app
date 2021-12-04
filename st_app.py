@@ -40,7 +40,8 @@ logreg.fit(X_train, y_train)
 
 #model and data fitted!
 
-
+cnf_matrix = metrics.confusion_matrix(y_test,y_pred)
+print(cnf_matrix)
 
 #describe interest rate stuff for looking at it idk
 #st.text(credit_risk['interest_rate'].describe())
