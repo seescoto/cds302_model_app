@@ -12,12 +12,10 @@ st.title('Credit Loan Risk')
 st.subheader('Will you get approved for a loan?')
 
 
-
-
 # data and model loading
 
 #loading data
-path = 'https://raw.githubusercontent.com/seescoto/cds302_model_app/main/credit_risk_dataset.csv'
+path = 'https://raw.githubusercontent.com/seescoto/cds303_model_app/main/credit_risk_dataset.csv'
 df = pd.read_csv(path)
 #drop categorical data
 credit_risk = df.select_dtypes(exclude=['object'])
