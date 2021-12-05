@@ -53,7 +53,7 @@ dat = st.sidebar.file_uploader('Please upload the data in CSV form', type = 'csv
 caps = ['Your CSV file should have two columns.',
 "The first one should represent the interest rate for the given loan, and the second should represent what percentage of said person's income is their requested loan.",
 'E.G. if they make $50,000 and want a loan of $10,000, their loan percent income would be 10,000/50,000 = 1/5 = 0.2',
-'example row for 20% loan percent interest and 15% interest rate: .2, 15']
+'example row for a loan that is 20% of the income with a 15% interest rate: .2, 15']
 
 for i in caps:
     st.sidebar.caption(i)
