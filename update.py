@@ -1,4 +1,4 @@
-###updated csv file so no need to reload each time
+###updated csv file so no need to redo each time
 
 
 import pandas as pd
