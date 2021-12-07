@@ -6,6 +6,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn import metrics
 import numpy as np
+from sklearn import *
+import csv
 
 #title and stuff idk
 st.title('Credit Loan Risk')
@@ -28,7 +30,7 @@ X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.20, random_stat
 #creating model and fitting it
 logreg = LogisticRegression()
 logreg.fit(X_train, y_train)
-y_pred = logreg.predict(X_test)
+#y_pred = logreg.predict(X_test)
 
 #model and data fitted!
 
@@ -44,19 +46,47 @@ dat = st.sidebar.file_uploader('Please upload the data in CSV form', type = 'csv
 caps = ['Your CSV file should have two columns.',
 "The first one should represent the interest rate for the given loan, and the second should represent what percentage of said person's income is their requested loan.",
 'E.G. if they make $50,000 and want a loan of $10,000, their loan percent income would be 10,000/50,000 = 1/5 = 0.2',
-'example row for a loan that is 20% of the income with a 15% interest rate: .2, 15']
+'example row for a loan that is 20% of the income with a 15% interest rate: 15, .2']
 
 for i in caps:
     st.sidebar.caption(i)
 
 if dat != None:
+
     dat = pd.read_csv(dat, sep = ',')
+    cols = ['interest_rate', 'loan_percent_income']
+    new = []
+    for c in dat.columns:
+        if c not in cols: #if column names aren't correct
+            #st.warning(f'Please upload a CSV file with column names set as {cols} in order to include all data points')
+            dat.columns =cols #replace first pair w/ col names
+            try: #if the column names are numbers, add to new
+                new.append(float(c))
+            except: #if not numbers, tell them we changed them
+                st.warning('Column names changed. No action required')
+                break
+
+    if new: #if we added to new, make it a df combine it with dat
+        new = pd.DataFrame([new], columns = cols)
+        dat = pd.concat([new, dat])
+
+
+
+
+
 
     st.write(dat)
+    st.text(dat.shape)
+
+    #for i in range(len(dat)): #for all rows
+        #input = dat[]
 
     ##modeling and getting the answer after checkbox has been selected
-    dat.pred = logreg.predict(dat) #predict defaulting [1] 0 is approved/not default
-    dat.prob = logreg.predict_proba(dat) #predict possibility of not defaulting and not defaulting
+    #for i in dat.columns:
+        #input = dat.
+    #dat['Loan'] = logreg.predict(dat) #predict defaulting [1] 0 is approved/not default
+    st.write(logreg.predict(dat))
+    dat['Probability'] = logreg.predict_proba(dat)[:,0] #predict possibility of not defaulting and not defaulting
 
 
     st.write(dat)
