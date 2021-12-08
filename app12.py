@@ -74,26 +74,16 @@ def app():
         st.write(dat)
         st.text('Calculating...')
 
-        loans = []
-        probs = []
 
-        for i in range(len(dat)): #for all rows
-            input = [[dat.iloc[i][0], dat.iloc[i][1]]]
-            st.text(input)
-            pred = logreg.predict(input)
-            prob = logreg.predict_proba(input)[:, 0]
-            loans.append(pred)
-            probs.append(prob)
 
-        dat['Loan'] = loans
-        dat['Probability'] = probs
 
-        ##modeling and getting the answer after checkbox has been selected
-        #for i in dat.columns:
-            #input = dat.
-        dat['Loan'] = logreg.predict(dat) #predict defaulting [1] 0 is approved/not default
-        st.write(logreg.predict(dat))
-        dat['Probability'] = logreg.predict_proba(dat)[:,0] #predict possibility of not defaulting and not defaulting
+
+        loans = logreg.predict(dat)
+        probs = logreg.predict_proba(dat)[:, 0]
+        st.text(loans)
+        dat['loan_approved'] = loans
+        dat['prob_of_approval'] = probs
+
 
 
         st.write(dat)
