@@ -4,6 +4,7 @@ def app():
     from sklearn.model_selection import train_test_split
     from sklearn.linear_model import LogisticRegression
     from sklearn import metrics
+    import matplotlib.pyplot as plt
     import numpy as np
     #app 1 - group guessing given a csv
 
@@ -69,13 +70,7 @@ def app():
             dat = pd.concat([new, dat])
 
 
-
-
-        st.write(dat)
         st.text('Calculating...')
-
-
-
 
 
         loans = logreg.predict(dat)
@@ -83,10 +78,32 @@ def app():
         dat['loan_approved'] = loans
         dat['prob_of_approval'] = probs
 
-        repdict = {1 : 'no', 0: 'yes'}
+        repdict = {1 : 'Denied', 0: 'Approved'}
+
 
         dat['loan_approved'] = dat['loan_approved'].map(repdict)
 
         st.write(dat)
 
-        #put in a plot of values approved or not 
+        #put in a plot of values approved or not
+
+
+        fig = plt.figure()
+
+        groups = dat.groupby("loan_approved")
+        for name, group in groups:
+            plt.plot(group["interest_rate"], group["loan_percent_income"] * 100,
+            marker = 'o', linestyle=" ", label=name)
+        plt.legend()
+        plt.title('Loan Applications Approved/Denied')
+        plt.xlabel('Interest rate for loan')
+        plt.ylabel('Loan is ___ percent of income')
+
+
+
+
+
+        st.pyplot(fig)
+
+        #fig1 = plt.scatter(dat['interest_rate'], dat['loan_percent_income'])
+        #plt.show(fig1)
