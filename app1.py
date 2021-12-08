@@ -1,101 +1,109 @@
-#app 1 - group guessing given a csv
+def app(): # group csv test
+    import streamlit as st
+    import pandas as pd
+    from sklearn.model_selection import train_test_split
+    from sklearn.linear_model import LogisticRegression
+    from sklearn import metrics
+    import matplotlib.pyplot as plt
+    import numpy as np
+    #app 1 - group guessing given a csv
 
-import streamlit as st
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
-from sklearn import metrics
-import numpy as np
-from sklearn import *
-import csv
-
-#title and stuff idk
-st.title('Credit Loan Risk')
-st.subheader('Will you get approved for a loan?')
-
-
-# data and model loading
-
-#loading data
-path = 'https://raw.githubusercontent.com/seescoto/cds303_model_app/main/updated_csv.csv'
-credit_risk = pd.read_csv(path)
-Feature_cols = ['interest_rate', 'loan_percent_income']
-
-#fitting the model
-#setting x and y
-X = credit_risk[Feature_cols]
-y = credit_risk.loan_status
-#split into test/train sets - no randomness so same results each time
-X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.20, random_state = 0)
-#creating model and fitting it
-logreg = LogisticRegression()
-logreg.fit(X_train, y_train)
-#y_pred = logreg.predict(X_test)
-
-#model and data fitted!
+    #title and stuff idk
+    st.title('Credit Loan Risk')
+    st.subheader('Will you get approved for a loan?')
 
 
-#describe interest rate stuff for looking at it idk
-#st.text(credit_risk['interest_rate'].describe())
+    # data and model loading
+
+    #loading data
+    path = 'https://raw.githubusercontent.com/seescoto/cds303_model_app/main/updated_csv.csv'
+    credit_risk = pd.read_csv(path)
+    Feature_cols = ['interest_rate', 'loan_percent_income']
+
+    #fitting the model
+    #setting x and y
+    X = credit_risk[Feature_cols]
+    y = credit_risk.loan_status
+    #split into test/train sets - no randomness so same results each time
+    X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.20, random_state = 0)
+    #creating model and fitting it
+    logreg = LogisticRegression()
+    logreg.fit(X_train, y_train)
+    #y_pred = logreg.predict(X_test)
+
+    #model and data fitted!
 
 
-###use inputs in sidebar
+    #describe interest rate stuff for looking at it idk
+    #st.text(credit_risk['interest_rate'].describe())
 
 
-dat = st.sidebar.file_uploader('Please upload the data in CSV form', type = 'csv')
-caps = ['Your CSV file should have two columns.',
-"The first one should represent the interest rate for the given loan, and the second should represent what percentage of said person's income is their requested loan.",
-'E.G. if they make $50,000 and want a loan of $10,000, their loan percent income would be 10,000/50,000 = 1/5 = 0.2',
-'example row for a loan that is 20% of the income with a 15% interest rate: 15, .2']
-
-for i in caps:
-    st.sidebar.caption(i)
-
-if dat != None:
-
-    dat = pd.read_csv(dat, sep = ',')
-    cols = ['interest_rate', 'loan_percent_income']
-    new = []
-    i = -1
-    for c in dat.columns:
-        i += 1
-        if c != cols[i]: #if column names aren't correct
-            dat.columns = cols #replace first pair w/ col names
-            try: #if the column names are numbers, add to new
-                new.append(float(c))
-            except: #if not numbers, tell them we changed them
-                break
-
-    if new: #if we added to new, make it a df combine it with dat
-        new = pd.DataFrame([new], columns = cols)
-        dat = pd.concat([new, dat])
+    ###use inputs in sidebar
 
 
+    dat = st.file_uploader('Please upload the data in CSV form', type = 'csv')
+    caps = ['Your CSV file should have two columns.',
+    "The first one should represent the interest rate for the given loan, and the second should represent what percentage of said person's income is their requested loan.",
+    'E.G. if they make $50,000 and want a loan of $10,000, their loan percent income would be 10,000/50,000 = 1/5 = 0.2',
+    'example row for a loan that is 20% of the income with a 15% interest rate: 15, .2']
+
+    for i in caps:
+        st.caption(i)
+
+    if dat != None:
+
+        dat = pd.read_csv(dat, sep = ',')
+        cols = ['interest_rate', 'loan_percent_income']
+        new = []
+        i = -1
+        for c in dat.columns:
+            i += 1
+            if c != cols[i]: #if column names aren't correct
+                dat.columns = cols #replace first pair w/ col names
+                try: #if the column names are numbers, add to new
+                    new.append(float(c))
+                except: #if not numbers, just go to next thing
+                    break
+
+        if new: #if we added to new, make it a df combine it with dat
+            new = pd.DataFrame([new], columns = cols)
+            dat = pd.concat([new, dat])
 
 
-    st.write(dat)
-    st.text('Calculating...')
-
-    loans = []
-    probs = []
-
-    for i in range(len(dat)): #for all rows
-        input = [[dat.iloc[i][0], dat.iloc[i][1]]]
-        st.text(input)
-        pred = logreg.predict(input)
-        prob = logreg.predict_proba(input)[:, 0]
-        loans.append(pred)
-        probs.append(prob)
-
-    dat['Loan'] = loans
-    dat['Probability'] = probs
-
-    ##modeling and getting the answer after checkbox has been selected
-    #for i in dat.columns:
-        #input = dat.
-    dat['Loan'] = logreg.predict(dat) #predict defaulting [1] 0 is approved/not default
-    st.write(logreg.predict(dat))
-    dat['Probability'] = logreg.predict_proba(dat)[:,0] #predict possibility of not defaulting and not defaulting
+        st.text('Calculating...')
 
 
-    st.write(dat)
+        loans = logreg.predict(dat)
+        probs = logreg.predict_proba(dat)[:, 0]
+        dat['loan_approved'] = loans
+        dat['prob_of_approval'] = probs
+
+        repdict = {1 : 'Denied', 0: 'Approved'}
+
+
+        dat['loan_approved'] = dat['loan_approved'].map(repdict)
+
+        st.write(dat)
+
+        #put in a plot of values approved or not
+
+
+        fig = plt.figure()
+
+        groups = dat.groupby("loan_approved")
+        for name, group in groups:
+            plt.plot(group["interest_rate"], group["loan_percent_income"] * 100,
+            marker = 'o', linestyle=" ", label=name)
+        plt.legend()
+        plt.title('Loan Applications Approved/Denied')
+        plt.xlabel('Interest rate for loan')
+        plt.ylabel('Loan is ___ percent of income')
+
+
+
+
+
+        st.pyplot(fig)
+
+        #fig1 = plt.scatter(dat['interest_rate'], dat['loan_percent_income'])
+        #plt.show(fig1)

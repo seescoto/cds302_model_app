@@ -12,12 +12,12 @@ import numpy as np
 import csv
 
 #app.py
-import app12
-import app22
+import app1
+import app2
 import streamlit as st
 PAGES = {
-    "Evaluate 1 loan application at a time": app22,
-    "Evaluate multiple applications (CSV)": app12
+    "Evaluate 1 loan application at a time": app2,
+    "Evaluate multiple applications (CSV)": app1
 }
 st.sidebar.title('Navigation')
 selection = st.sidebar.radio("Go to", list(PAGES.keys()))
