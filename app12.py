@@ -61,7 +61,7 @@ def app():
                 dat.columns = cols #replace first pair w/ col names
                 try: #if the column names are numbers, add to new
                     new.append(float(c))
-                except: #if not numbers, tell them we changed them
+                except: #if not numbers, just go to next thing
                     break
 
         if new: #if we added to new, make it a df combine it with dat
@@ -80,10 +80,13 @@ def app():
 
         loans = logreg.predict(dat)
         probs = logreg.predict_proba(dat)[:, 0]
-        st.text(loans)
         dat['loan_approved'] = loans
         dat['prob_of_approval'] = probs
 
+        repdict = {1 : 'no', 0: 'yes'}
 
+        dat['loan_approved'] = dat['loan_approved'].map(repdict)
 
         st.write(dat)
+
+        #put in a plot of values approved or not 

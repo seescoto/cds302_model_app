@@ -18,8 +18,8 @@ import app12
 import app22
 import streamlit as st
 PAGES = {
-    "Evaluate 1 at a time": app22,
-    "Upload a file to Evaluate": app12
+    "Evaluate 1 loan application at a time": app22,
+    "Evaluate multiple applications (CSV)": app12
 }
 st.sidebar.title('Navigation')
 selection = st.sidebar.radio("Go to", list(PAGES.keys()))
