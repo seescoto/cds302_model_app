@@ -1,7 +1,7 @@
 #MULTIPLE PAGES
 #FROM https://medium.com/@u.praneel.nihar/
 #building-multi-page-web-app-using-streamlit-7a40d55fa5b4
-!pip install matplotlib.pyplot
+#!pip install matplotlib.pyplot
 
 import streamlit as st
 import pandas as pd
