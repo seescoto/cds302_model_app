@@ -10,7 +10,7 @@ def app(): # group csv test
 
     #title and stuff idk
     st.title('Credit Loan Risk')
-    st.subheader('Will you get approved for a loan?')
+    st.subheader('Enter a CSV file to determine loan approval')
 
 
     # data and model loading
