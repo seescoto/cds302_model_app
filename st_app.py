@@ -1,7 +1,7 @@
 #MULTIPLE PAGES
 #FROM https://medium.com/@u.praneel.nihar/
 #building-multi-page-web-app-using-streamlit-7a40d55fa5b4
-!pip install matplotlib.pyplot
+#!pip install matplotlib.pyplot
 
 import streamlit as st
 import pandas as pd
@@ -10,6 +10,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn import metrics
 import numpy as np
 import csv
+import seaborn as sns
 
 
 #cheat sheet for adding the visualization page
@@ -23,12 +24,12 @@ import csv
 
 import app1
 import app2
-#import vis
+import vis
 import streamlit as st
 PAGES = {
     "Evaluate 1 loan application at a time": app2,
     "Evaluate multiple applications (CSV)": app1,
-    #"Visualizations" : vis
+    "Visualizations" : vis
 }
 st.sidebar.title('Navigation')
 selection = st.sidebar.radio("Go to", list(PAGES.keys()))
