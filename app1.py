@@ -51,59 +51,53 @@ def app(): # group csv test
         st.caption(i)
 
     if dat != None:
-
         dat = pd.read_csv(dat, sep = ',')
-        cols = ['interest_rate', 'loan_percent_income']
-        new = []
-        i = -1
-        for c in dat.columns:
-            i += 1
-            if c != cols[i]: #if column names aren't correct
-                dat.columns = cols #replace first pair w/ col names
-                try: #if the column names are numbers, add to new
-                    new.append(float(c))
-                except: #if not numbers, just go to next thing
-                    break
 
-        if new: #if we added to new, make it a df combine it with dat
-            new = pd.DataFrame([new], columns = cols)
-            dat = pd.concat([new, dat])
+        if len(dat.columns) != 2:
+            st.warning('Please upload a CSV file with two columns')
+        else: #go on regularly
+            cols = ['interest_rate', 'loan_percent_income']
+            new = []
+            i = -1
+            for c in dat.columns:
+                i += 1
+                if c != cols[i]: #if column names aren't correct
+                    dat.columns = cols #replace first pair w/ col names
+                    try: #if the column names are numbers, add to new
+                        new.append(float(c))
+                    except: #if not numbers, just go to next thing
+                        break
 
-
-        st.text('Calculating...')
-
-
-        loans = logreg.predict(dat)
-        probs = logreg.predict_proba(dat)[:, 0]
-        dat['loan_approved'] = loans
-        dat['prob_of_approval'] = probs
-
-        repdict = {1 : 'Denied', 0: 'Approved'}
+            if new: #if we added to new, make it a df combine it with dat
+                new = pd.DataFrame([new], columns = cols)
+                dat = pd.concat([new, dat])
 
 
-        dat['loan_approved'] = dat['loan_approved'].map(repdict)
-
-        st.write(dat)
-
-        #put in a plot of values approved or not
+            st.text('Calculating...')
 
 
-        fig = plt.figure()
+            loans = logreg.predict(dat)
+            probs = logreg.predict_proba(dat)[:, 0]
+            dat['loan_approved'] = loans
+            dat['prob_of_approval'] = probs
 
-        groups = dat.groupby("loan_approved")
-        for name, group in groups:
-            plt.plot(group["interest_rate"], group["loan_percent_income"] * 100,
-            marker = 'o', linestyle=" ", label=name)
-        plt.legend()
-        plt.title('Loan Applications Approved/Denied')
-        plt.xlabel('Interest rate for loan')
-        plt.ylabel('Loan is ___ percent of income')
+            repdict = {1 : 'Denied', 0: 'Approved'}
 
 
+            dat['loan_approved'] = dat['loan_approved'].map(repdict)
+
+            st.write(dat)
+
+            #put in a plot of values approved or not
 
 
+            fig = plt.figure()
 
-        st.pyplot(fig)
-
-        #fig1 = plt.scatter(dat['interest_rate'], dat['loan_percent_income'])
-        #plt.show(fig1)
+            groups = dat.groupby("loan_approved")
+            for name, group in groups:
+                plt.plot(group["interest_rate"], group["loan_percent_income"] * 100,
+                marker = 'o', linestyle=" ", label=name)
+            plt.legend()
+            plt.title('Loan Applications Approved/Denied')
+            plt.xlabel('Interest rate for loan')
+            plt.ylabel('Loan is ___ percent of income')

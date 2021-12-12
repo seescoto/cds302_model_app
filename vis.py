@@ -12,7 +12,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn import metrics
 import matplotlib.pyplot as plt
 import numpy as np
-import seaborn as sns
+import seaborn as sns   
 
 def app():
 
