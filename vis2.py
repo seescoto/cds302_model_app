@@ -114,6 +114,8 @@ def app():
     fig4.update_layout(width=800)
     fig6 = px.bar(df, x=df['loan_percent_income'], y=df['loan_amnt'], color=df['loan_status'])
     fig6.update_layout(width=800)
+    fig7 = px.histogram(df, x=['loan_status'], color=df["loan_status"])
+    fig7.update_layout(width=800)
     
     labels = ["RENT","OWN","MORTGAGE","OTHERS"]
     
@@ -179,6 +181,8 @@ def app():
     st.write(fig6)
     st.subheader("Marimekko Chart On Loan Defaulters")
     st.write(fig)
+    st.subheader("class Imbalance")
+    st.write(fig7)
     
     st.header("For bugs encounters please contact me!")
     contact_form = """
