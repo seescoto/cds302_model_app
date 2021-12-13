@@ -28,7 +28,7 @@ import vis
 import streamlit as st
 PAGES = {
     "Evaluate 1 loan application at a time": app2,
-    "Evaluate multiple applications (CSV)": app1,
+    "Upload CSV of applications": app1,
     "Visualizations" : vis
 }
 st.sidebar.title('Navigation')

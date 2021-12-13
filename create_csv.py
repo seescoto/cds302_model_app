@@ -25,4 +25,4 @@ lpilist = (lmax - lmin) * np.random.random_sample(size) + lmin
 d = {'interest_rate': intlist, 'loan_percent_interest':lpilist}
 df2 = pd.DataFrame(d)
 
-df2.to_csv('test.csv')
+df2.to_csv('test.csv', index = False)
