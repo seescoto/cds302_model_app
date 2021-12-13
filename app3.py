@@ -31,12 +31,6 @@ def app(): #create random test values
 
     #model and data fitted!
 
-    #how big should df be?
-    size = st.number_input('How many applications would you like to evaluate?', value = 1000)
-    if size <= 0:
-        st.warning('Can not test less than one sample at a time')
-
-
     #after inputting size, make df
     #X is already defined as credit_risk[feature columns] so can use that
 
@@ -45,23 +39,24 @@ def app(): #create random test values
     irmin = X['interest_rate'].min()
     irmax = X['interest_rate'].max()
 
+    #how big should df be?
+    size = st.number_input('How many applications would you like to evaluate?', value = 1000)
+    if size <= 0:
+        st.warning('Can not test less than one sample at a time')
+    else:
+        #random list of interests based on stats
+        intlist = (irmax - irmin) * np.random.random_sample(size) + irmin
+        #randome lists of loan percents based on stats
+        lpilist = (lmax - lmin) * np.random.random_sample(size) + lmin
 
-    #random list of interests based on stats
-    intlist = (irmax - irmin) * np.random.random_sample(size) + irmin
-    #randome lists of loan percents based on stats
-    lpilist = (lmax - lmin) * np.random.random_sample(size) + lmin
-
-
-    #making lists into a dict, then putting dict into df
-    d = {'interest_rate': intlist, 'loan_percent_income':lpilist}
-    dat = pd.DataFrame(d)
-
+        #making lists into a dict, then putting dict into df
+        d = {'interest_rate': intlist, 'loan_percent_income':lpilist}
+        dat = pd.DataFrame(d)
 
 
     if not (dat.empty):
 
         st.text('Calculating...')
-
 
         loans = logreg.predict(dat)
         probs = logreg.predict_proba(dat)[:, 0]
