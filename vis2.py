@@ -6,16 +6,11 @@ Created on Sun Dec 12 22:56:58 2021
 """
 
 def app():
-
-    import dash
-    from dash import dcc
-    from dash import html
     import plotly.express as px
     import pandas as pd
     import statistics
     import numpy as np
     import plotly.graph_objects as go
-    import missingno as msno
     import streamlit as st
     
     
