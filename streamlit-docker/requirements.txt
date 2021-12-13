@@ -2,3 +2,5 @@ streamlit
 scikit-learn
 numpy
 pandas
+plotly
+seaborn
