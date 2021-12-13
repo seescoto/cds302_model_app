@@ -112,8 +112,6 @@ def app():
     fig3.update_layout(width=800)
     fig4 = px.histogram(df, x=df["person_age"], barmode="group", color=df["loan_status"], nbins = 20)
     fig4.update_layout(width=800)
-    fig5 = px.bar(df, x=df['loan_int_rate'], y = df['loan_status'])
-    fig5.update_layout(width=800)
     fig6 = px.bar(df, x=df['loan_percent_income'], y=df['loan_amnt'], color=df['loan_status'])
     fig6.update_layout(width=800)
     
@@ -171,11 +169,15 @@ def app():
    
     st.subheader("Income Distribution Among different Income Groups")
     st.write(fig1)
+    st.subheader("Loan Intents Grouped By Loan Grade")
     st.write(fig2)
+    st.subheader("Home Ownership Grouped By Loan Status Groups")
     st.write(fig3)
+    st.subheader("Age Histogram")
     st.write(fig4)
-    st.write(fig5)
+    st.subheader("Distribution of Loan Percent Income Against Loan Amount")
     st.write(fig6)
+    st.subheader("Marimekko Chart On Loan Defaulters")
     st.write(fig)
     
     st.header("For bugs encounters please contact me!")
