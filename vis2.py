@@ -14,6 +14,8 @@ def app():
     import streamlit as st
     import time
     
+    st.header("DATA EXPLORATORY VISUALIZATIONS")
+    
     my_bar = st.progress(0)
 
     for percent_complete in range(100):
@@ -167,7 +169,7 @@ def app():
     font_color=colors['text']
     )
    
-    
+    st.subheader("Income Distribution Among different Income Groups")
     st.write(fig1)
     st.write(fig2)
     st.write(fig3)
