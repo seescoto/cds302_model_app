@@ -53,7 +53,9 @@ def app(): #create random test values
         d = {'interest_rate': intlist, 'loan_percent_income':lpilist}
         dat = pd.DataFrame(d)
 
-        st.text('Calculating...')
+        with st.spinner('Calculating...'):
+            time.sleep(5)
+        st.success('Done!')
 
         loans = logreg.predict(dat)
         probs = logreg.predict_proba(dat)[:, 0]
