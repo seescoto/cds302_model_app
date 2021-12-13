@@ -24,12 +24,15 @@ import seaborn as sns
 
 import app1
 import app2
+import app3
 import vis
 import streamlit as st
 PAGES = {
     "Evaluate 1 loan application at a time": app2,
     "Upload CSV of applications": app1,
+    "Evaluate random applications": app3,
     "Visualizations" : vis
+
 }
 st.sidebar.title('Navigation')
 selection = st.sidebar.radio("Go to", list(PAGES.keys()))

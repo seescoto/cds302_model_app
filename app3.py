@@ -88,3 +88,5 @@ def app(): #create random test values
         plt.title('Loan Applications Approved/Denied')
         plt.xlabel('Interest rate for loan')
         plt.ylabel('Loan is ___ percent of income')
+
+        st.pyplot(fig)
