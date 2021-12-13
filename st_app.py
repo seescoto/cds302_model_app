@@ -26,12 +26,14 @@ import app1
 import app2
 import app3
 import vis
+import vis2
 import streamlit as st
 PAGES = {
     "Evaluate 1 loan application at a time": app2,
     "Upload CSV of applications": app1,
     "Evaluate random applications": app3,
     "Model Visualizations" : vis
+    "Data Exploaratory Analysis" : vis2
 
 }
 st.sidebar.title('Navigation')
