@@ -17,7 +17,7 @@ def app():
     
     
     
-    path = "/Users/davis/Documents/GMU/Python_Projects/credit_risk_dataset.csv"
+    path = "credit_risk_dataset.csv"
     
     df = pd.read_csv(path)
     r_0 = 0
@@ -29,7 +29,6 @@ def app():
     ot_0 = 0
     ot_1 = 0
     
-    msno.matrix(df)
     
     ho = dict(df['person_home_ownership'].value_counts())
     tot = 0
