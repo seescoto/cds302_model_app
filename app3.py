@@ -6,6 +6,7 @@ def app(): #create random test values
     from sklearn import metrics
     import numpy as np
     import matplotlib.pyplot as plt
+    import time
 
 
     st.title('Credit Loan Risk')
