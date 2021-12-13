@@ -13,6 +13,7 @@ from sklearn import metrics
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns   
+import time
 
 def app():
 
@@ -90,3 +91,9 @@ def app():
 
     css_path = "style/style.css"
     local_css(css_path)
+    
+    my_bar = st.progress(0)
+
+    for percent_complete in range(100):
+        time.sleep(0.1)
+        my_bar.progress(percent_complete + 1)
