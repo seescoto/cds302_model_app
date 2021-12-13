@@ -40,7 +40,7 @@ def app(): #create random test values
     irmax = X['interest_rate'].max()
 
     #how big should df be?
-    size = st.number_input('How many applications would you like to evaluate?', value = 1000)
+    size = st.number_input('How many applications would you like to evaluate?', value = 500)
     if size <= 0:
         st.warning('Can not test less than one sample at a time')
     else:
