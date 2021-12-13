@@ -18,7 +18,11 @@ import time
 def app():
 
     st.header("MODEL PERFORMANCE VISUALIZATIONS")
+    my_bar = st.progress(0)
 
+    for percent_complete in range(100):
+        time.sleep(0.1)
+        my_bar.progress(percent_complete + 1)
     #loading data
     path = 'https://raw.githubusercontent.com/seescoto/cds303_model_app/main/updated_csv.csv'
     credit_risk = pd.read_csv(path)
@@ -91,9 +95,3 @@ def app():
 
     css_path = "style/style.css"
     local_css(css_path)
-    
-    my_bar = st.progress(0)
-
-    for percent_complete in range(100):
-        time.sleep(0.1)
-        my_bar.progress(percent_complete + 1)
