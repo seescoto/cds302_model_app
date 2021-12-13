@@ -53,9 +53,6 @@ def app(): #create random test values
         d = {'interest_rate': intlist, 'loan_percent_income':lpilist}
         dat = pd.DataFrame(d)
 
-
-    if not (dat.empty):
-
         st.text('Calculating...')
 
         loans = logreg.predict(dat)
