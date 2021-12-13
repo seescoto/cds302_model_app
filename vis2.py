@@ -21,7 +21,7 @@ def app():
         my_bar.progress(percent_complete + 1)
      
     with st.spinner('Wait for it...'):
-        time.sleep(25)
+        time.sleep(45)
     st.success('Done!')
     
     
