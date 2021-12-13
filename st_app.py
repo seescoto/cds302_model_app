@@ -31,7 +31,7 @@ PAGES = {
     "Evaluate 1 loan application at a time": app2,
     "Upload CSV of applications": app1,
     "Evaluate random applications": app3,
-    "Visualizations" : vis
+    "Model Visualizations" : vis
 
 }
 st.sidebar.title('Navigation')
