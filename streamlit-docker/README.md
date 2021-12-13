@@ -3,7 +3,8 @@
 ## Setup
 Download Docker (Available at [docker.io](https://www.docker.com/products/docker-desktop))
 
-Download this git repo  (Either git clone or click the code button and "Download ZIP")
+Download this git repo  (Either git clone or click the code button and "Download ZIP")  
+
 Change into the streamlit-docker folder and copy-paste the code below to build and run the docker container
 
 ## Running the Container with the final model and outputs 
