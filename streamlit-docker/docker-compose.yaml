@@ -1,0 +1,13 @@
+version: "3"
+services:
+  app-name: "cds303-model-final"
+    build:
+      context: .
+      dockerfile: dockerfile
+    image: cds303-dashboard:1.0
+    container_name: cds303-dashboard
+    ports:
+      - "8501:8501"
+    environment:
+      - TARGET=$TARGET
+    restart: unless-stopped

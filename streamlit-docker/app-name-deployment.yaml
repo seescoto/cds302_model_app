@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yaml
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: app-name
+  name: app-name
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: app-name
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yaml
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: app-name
+    spec:
+      containers:
+        - env:
+            - name: TARGET
+          image: cds303-dashboard:1.0
+          name: cds303-dashboard
+          ports:
+            - containerPort: 8501
+          resources: {}
+      restartPolicy: Always
+status: {}
