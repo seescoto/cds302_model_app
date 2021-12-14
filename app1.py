@@ -103,8 +103,8 @@ def app(): # group csv test
             plt.ylabel('Loan is ___ percent of income')
 
             st.pyplot(fig)
-            
-    st.header("For bugs encounters please contact us!")
+
+    st.header("For bugs encountered, please contact us!")
     contact_form = """
     <form action="https://formsubmit.co/davis1kajuna@gmail.com" method="POST">
      <input type="hidden" name="_captcha" value="false">
@@ -114,9 +114,9 @@ def app(): # group csv test
      <button type="submit">Send</button>
     </form>
     """
-    
+
     st.markdown(contact_form, unsafe_allow_html=True)
-    
+
     # Use Local CSS File
     def local_css(file_name):
         with open(file_name) as f:

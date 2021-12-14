@@ -12,7 +12,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn import metrics
 import matplotlib.pyplot as plt
 import numpy as np
-import seaborn as sns   
+import seaborn as sns
 import time
 
 def app():
@@ -75,7 +75,7 @@ def app():
     plt.show()
     st.pyplot(fig)
 
-    st.header("For bugs encounters please contact us!")
+    st.header("For bugs encountered, please contact us!")
     contact_form = """
     <form action="https://formsubmit.co/davis1kajuna@gmail.com" method="POST">
      <input type="hidden" name="_captcha" value="false">

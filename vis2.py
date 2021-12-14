@@ -13,25 +13,25 @@ def app():
     import plotly.graph_objects as go
     import streamlit as st
     import time
-    
+
     st.header("DATA EXPLORATORY VISUALIZATIONS")
-    
+
     my_bar = st.progress(0)
 
     for percent_complete in range(100):
         time.sleep(0.1)
         my_bar.progress(percent_complete + 1)
-     
+
     with st.spinner('Wait for it...'):
         time.sleep(75)
     st.success('Done!')
-    
-    
-    
-    
-    
+
+
+
+
+
     path = "credit_risk_dataset.csv"
-    
+
     df = pd.read_csv(path)
     r_0 = 0
     r_1 = 0
@@ -41,37 +41,37 @@ def app():
     o_1 = 0
     ot_0 = 0
     ot_1 = 0
-    
-    
+
+
     ho = dict(df['person_home_ownership'].value_counts())
     tot = 0
     for key, value in ho.items():
         tot += value
-    
+
     for i in range(len(df)):
-        if df.iloc[i]['person_home_ownership'] == "RENT" and df.iloc[i]['loan_status'] == 0:      
+        if df.iloc[i]['person_home_ownership'] == "RENT" and df.iloc[i]['loan_status'] == 0:
             r_0 += 1
-        elif df.iloc[i]['person_home_ownership'] == "RENT" and df.iloc[i]['loan_status'] == 1:      
+        elif df.iloc[i]['person_home_ownership'] == "RENT" and df.iloc[i]['loan_status'] == 1:
             r_1 += 1
-        elif df.iloc[i]['person_home_ownership'] == "MORTGAGE" and df.iloc[i]['loan_status'] == 0: 
+        elif df.iloc[i]['person_home_ownership'] == "MORTGAGE" and df.iloc[i]['loan_status'] == 0:
             m_0 += 1
         elif df.iloc[i]['person_home_ownership'] == "MORTGAGE" and df.iloc[i]['loan_status'] == 1:
-            m_1 += 1   
+            m_1 += 1
         elif df.iloc[i]['person_home_ownership'] == "OWN" and df.iloc[i]['loan_status'] == 0:
             o_0 += 1
         elif df.iloc[i]['person_home_ownership'] == "OWN" and df.iloc[i]['loan_status'] == 1:
             o_1 += 1
-        elif df.iloc[i]['person_home_ownership'] == "OTHER" and df.iloc[i]['loan_status'] == 0:  
+        elif df.iloc[i]['person_home_ownership'] == "OTHER" and df.iloc[i]['loan_status'] == 0:
             ot_0 += 1
-        else:  
+        else:
             ot_1 += 1
-    
-    
+
+
     for i in range(len(df["person_age"])):
         if df["person_age"][i] >= 95:
             df["person_age"][i] = statistics.mean(df["person_age"])
-    
-    
+
+
     low_income = 0
     lower_middle = 0
     middle_class= 0
@@ -88,7 +88,7 @@ def app():
             upper_middle += 1
         else:
             rich += 1
-    
+
     income_dict = {
     "low_income" : low_income,
     "lower_middle" : lower_middle,
@@ -96,14 +96,14 @@ def app():
     "upper_middle" : upper_middle,
     "rich" : rich
     }
-    
+
     loan_status_dict = {}
     df['loan_status'].value_counts()
-    
-    
-    
 
-    
+
+
+
+
     fig1 = px.bar(x=income_dict.keys(), y=income_dict.values())
     fig1.update_layout(width=800)
     fig2 = px.bar(df, x=df["loan_intent"].head(5000), y=df["loan_amnt"].head(5000), color=df["loan_grade"].head(5000), barmode="group")
@@ -114,17 +114,17 @@ def app():
     fig4.update_layout(width=800)
     fig6 = px.bar(df, x=df['loan_percent_income'], y=df['loan_amnt'], color=df['loan_status'])
     fig6.update_layout(width=800)
-  
-    
+
+
     labels = ["RENT","OWN","MORTGAGE","OTHERS"]
-    
+
     widths = np.array([ho["RENT"]/tot*100,ho["OWN"]/tot*100,ho["MORTGAGE"]/tot*100,ho["OTHER"]/tot*100])
-    
+
     data = {
     "DEFAULT": [r_1/(r_1+r_0)*100,o_1/(o_1+o_0)*100,m_1/(m_1+m_0)*100,ot_1/(ot_1+ot_0)*100],
     "NON DEFAULT": [r_0/(r_1+r_0)*100,o_0/(o_1+o_0)*100,m_0/(m_1+m_0)*100,ot_0/(ot_1+ot_0)*100]
     }
-    
+
     fig = go.Figure()
     for key in data:
         fig.add_trace(go.Bar(
@@ -145,20 +145,20 @@ def app():
             "area: %{customdata[1]}",
         ])
     ))
-        
+
     colors = {
     "background": "#393A3B",
     "text": "#E6E9EC"
 }
-    
+
     fig.update_xaxes(
     tickvals=np.cumsum(widths)-widths/2,
     ticktext= ["%s<br>%d" % (l, w) for l, w in zip(labels, widths)]
     )
-    
+
     fig.update_xaxes(range=[0,100])
     fig.update_yaxes(range=[0,100])
-    
+
     fig.update_layout(
     title_text="Marimekko Chart on loan defaulters",
     barmode="stack",
@@ -167,7 +167,7 @@ def app():
     paper_bgcolor=colors['background'],
     font_color=colors['text']
     )
-   
+
     st.subheader("Income Distribution Among different Income Groups")
     st.write(fig1)
     st.subheader("Loan Intents Grouped By Loan Grade")
@@ -180,9 +180,9 @@ def app():
     st.write(fig6)
     st.subheader("Marimekko Chart On Loan Defaulters")
     st.write(fig)
- 
-    
-    st.header("For bugs encounters please contact me!")
+
+
+    st.header("For bugs encountered, please contact me!")
     contact_form = """
     <form action="https://formsubmit.co/davis1kajuna@gmail.com" method="POST">
      <input type="hidden" name="_captcha" value="false">
@@ -192,9 +192,9 @@ def app():
      <button type="submit">Send</button>
     </form>
     """
-    
+
     st.markdown(contact_form, unsafe_allow_html=True)
-    
+
     # Use Local CSS File
     def local_css(file_name):
         with open(file_name) as f:

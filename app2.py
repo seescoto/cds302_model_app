@@ -1,4 +1,4 @@
-def app(): #individual test 
+def app(): #individual test
     import streamlit as st
     import pandas as pd
     from sklearn.model_selection import train_test_split
@@ -105,11 +105,11 @@ def app(): #individual test
     else:
         st.text(f'Our model predicts that you will not get approved for a loan.')
         st.text(f'The probability that you will be approved is {round(prob[0][0]*100, 2)}%')
-        
-        
-        
-        
-    st.header("For bugs encounters please contact us!")
+
+
+
+
+    st.header("For bugs encountered, please contact us!")
     contact_form = """
     <form action="https://formsubmit.co/davis1kajuna@gmail.com" method="POST">
      <input type="hidden" name="_captcha" value="false">
@@ -119,9 +119,9 @@ def app(): #individual test
      <button type="submit">Send</button>
     </form>
     """
-    
+
     st.markdown(contact_form, unsafe_allow_html=True)
-    
+
     # Use Local CSS File
     def local_css(file_name):
         with open(file_name) as f:
